@@ -7,7 +7,7 @@ const configureStore = (initialState) => {
     rootReducer,
     initialState,
     composeWithDevTools(applyMiddleware())
-  )
+  );
 };
 
 export default configureStore;

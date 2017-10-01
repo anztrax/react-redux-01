@@ -14,7 +14,7 @@ class CoursesPage extends React.Component{
   }
 
   onClickSave = () => {
-    this.props.dispatch(coursesAction.createCourse(this.state.course));
+    this.props.createCourse(this.state.course);
   };
 
   onTitleChange = (event) => {
@@ -51,11 +51,21 @@ class CoursesPage extends React.Component{
     );
   }
 }
+CoursesPage.propTypes = {
+  courses : PropTypes.array.isRequired,
+  createCourse : PropTypes.func.isRequired
+};
 
 const mapStateToProps = (state, ownProps) => {
   return {
     courses : state.courses
-  }
+  };
 };
 
-export default connect(mapStateToProps)(CoursesPage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createCourse : course => dispatch(coursesAction.createCourse(course))
+  };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(CoursesPage);
