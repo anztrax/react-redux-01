@@ -1,5 +1,7 @@
 const CREATE_COURSE = 'CREATE_COURSE';
+const LOAD_COURSES_SUCCESS = 'loadCoursesSuccess';
 
 export {
-  CREATE_COURSE
+  CREATE_COURSE,
+  LOAD_COURSES_SUCCESS
 }
