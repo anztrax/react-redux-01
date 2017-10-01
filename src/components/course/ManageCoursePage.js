@@ -13,6 +13,15 @@ class ManageCoursePage extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps){
+    if(this.props.course.id != nextProps.course.id){
+      //Necessary to populate form when existing course is loaded directly
+      this.setState({
+        course : Object.assign({}, nextProps.course)
+      });
+    }
+  };
+
   updateCourseState = (event) => {
     const field = event.target.name;
     let course = Object.assign({}, this.state.course);
@@ -52,16 +61,20 @@ ManageCoursePage.contextTypes = {
   router: PropTypes.func.isRequired
 };
 
+const getCourseById = (courses, id) => {
+  const course = courses.filter(course => course.id === id);
+  if(course) return courses[0];
+  return null;
+};
+
 const mapStateToProps = (state, ownProps) => {
   const courseId = ownProps.params.id;
-  let course = {
-    id: "",
-    title: "",
-    watchHref: "",
-    authorId: "",
-    length: "",
-    category: ""
-  };
+  let course = { id: "", title: "", watchHref: "", authorId: "", length: "", category: "" };
+
+  //need to validate if courses is already loaded (because there's a latency in server around 1000ms (mock data))
+  if(courseId && state.courses.length > 0){
+    course = getCourseById(state.courses, courseId);
+  }
 
   const authorsFormattedForDropdown = state.authors.map(author => {
     return {
