@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as coursesAction from '../../actions/courseActions';
+import { browserHistory } from 'react-router';
 
 import CourseList from './CourseList';
 
@@ -10,11 +11,20 @@ class CoursesPage extends React.Component{
     super(props);
   }
 
+  redirectToAddCoursePage = () => {
+    browserHistory.push('/course');
+  };
+
   render(){
     const { courses } = this.props;
     return (
       <div>
         <h1>Courses</h1>
+        <input
+          type="submit"
+          value="Add Course"
+          className="btn btn-primary"
+          onClick={this.redirectToAddCoursePage} />
         <CourseList courses={courses} />
       </div>
     );
