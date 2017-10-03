@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import courseAPI from '../api/mock/mockCourseAPI';
+import { beginAjaxCall } from './ajaxStatusActions';
 
 const createCourse = (course) =>{
   return { type : types.CREATE_COURSE, course };
@@ -19,6 +20,7 @@ const createCourseSuccess = (course) => {
 
 const loadCourses = () => {
   return (dispatch) => {
+    dispatch(beginAjaxCall());
     return courseAPI.getAllCourses().then(courses => {
       dispatch(loadCoursesSuccess(courses));
     }).catch(error => {
@@ -30,6 +32,7 @@ const loadCourses = () => {
 const saveCourse = (course) => {
   //getState() for getting redux state somewhere
   return (dispatch, getState) => {
+    dispatch(beginAjaxCall());
     return courseAPI.saveCourse(course).then(savedCourse => {
       course.id ? dispatch(updateCourseSuccess(savedCourse)) :
         dispatch(createCourseSuccess(savedCourse))
