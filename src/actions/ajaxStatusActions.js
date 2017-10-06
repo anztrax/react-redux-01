@@ -6,6 +6,14 @@ const beginAjaxCall = () => {
   }
 };
 
+const ajaxCallError = (error) => {
+  return {
+    type : types.AJAX_CALL_ERROR,
+    error
+  }
+};
+
 export {
-  beginAjaxCall
+  beginAjaxCall,
+  ajaxCallError
 }

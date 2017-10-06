@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import TextInput from '../common/TextInput';
 import SelectInput from '../common/SelectInput';
 
-const CourseForm = ({course, allAuthors, onSave, onChange, loading, errors}) => {
+const CourseForm = ({course, allAuthors, onSave, onChange, isSaving, errors}) => {
   return (
     <form>
       <TextInput
@@ -37,8 +37,8 @@ const CourseForm = ({course, allAuthors, onSave, onChange, loading, errors}) => 
       />
       <input
         type="submit"
-        disabled={loading}
-        value={loading ? 'Saving...': 'Save'}
+        disabled={isSaving}
+        value={isSaving ? 'Saving...': 'Save'}
         className="btn btn-primary"
         onClick={onSave}
       />
@@ -51,8 +51,8 @@ CourseForm.propTypes = {
   allAuthors : PropTypes.array,
   onSave : PropTypes.func.isRequired,
   onChange : PropTypes.func.isRequired,
-  loading : PropTypes.bool,
-  errors : PropTypes.object
+  errors : PropTypes.object,
+  isSaving : PropTypes.bool.isRequired
 };
 
 export default CourseForm;
