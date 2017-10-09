@@ -13,6 +13,7 @@ const styles = {
     margin : '5px',
     padding : '5px',
     fontSize : '13px',
+    display : 'inline-block',
     marginBottom : '.5rem',
     backgroundColor: 'white',
     cursor: 'move',
@@ -46,24 +47,29 @@ const cardTarget = {
     // Get vertical middle
     const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
+    // Get horizontal middle
+    const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
+
     // Determine mouse position
     const clientOffset = monitor.getClientOffset();
 
     // Get pixels to the top
     const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-    // Only perform the move when the mouse has crossed half of the items height
-    // When dragging downwards, only move when the cursor is below 50%
-    // When dragging upwards, only move when the cursor is above 50%
+    // Get pixels to the left
+    const hoverClientX = clientOffset.x - hoverBoundingRect.left;
 
-    // Dragging downwards
-    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-      return
+    const upwards = dragIndex > hoverIndex && hoverClientY > hoverMiddleY;
+    const downwards = dragIndex < hoverIndex && hoverClientY < hoverMiddleY;
+    const leftwards = dragIndex > hoverIndex && hoverClientX > hoverMiddleX;
+    const rightwards = dragIndex < hoverIndex && hoverClientX < hoverMiddleX;
+
+    if (upwards && (leftwards || rightwards)){
+      return;
     }
 
-    // Dragging upwards
-    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-      return
+    if (downwards && (leftwards || rightwards)){
+      return;
     }
 
     // Time to actually perform the action
@@ -107,7 +113,7 @@ class ImageSliderItem extends React.Component {
               onClick={this._handleRemoveItemClick}> x </button>
           </span>
           <div>
-            <img src={image} width="100" height="100" />
+            <img src={image} width="100" height="100" /><br/>
             <span>name : <input type="text" disabled={true} value={name}/></span>
             <span>order : <input type="text" disabled={true} value={order}/></span>
             <span>value : <input type="text" disabled={true} value={value}/></span>

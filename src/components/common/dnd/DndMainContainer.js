@@ -14,7 +14,11 @@ class DndMainContainer extends React.Component{
       'https://i.pinimg.com/736x/b6/b7/18/b6b718b7514ea4255360189571798b02--simons-cat-kitten-care.jpg',
       'https://i.pinimg.com/736x/7a/ce/85/7ace85f1207a0fc850b1b99d92837550--baby-animals-funny-animals.jpg',
       'https://i.pinimg.com/736x/a0/50/bb/a050bb0e9a439db670f3c39b19a9c039--dog-selfie-save-animals.jpg',
-      'https://i.pinimg.com/736x/34/51/21/3451216c8bccff00e06d127bb1099584--dog-selfie-oscars.jpg'
+      'https://i.pinimg.com/736x/34/51/21/3451216c8bccff00e06d127bb1099584--dog-selfie-oscars.jpg',
+      'http://www.petmd.com/sites/default/files/what-does-it-mean-when-cat-wags-tail.jpg',
+      'https://pbs.twimg.com/profile_images/378800000532546226/dbe5f0727b69487016ffd67a6689e75a.jpeghttps://pbs.twimg.com/profile_images/378800000532546226/dbe5f0727b69487016ffd67a6689e75a.jpeg',
+      'http://www.bristol.ac.uk/media-library/sites/vetscience/migrated/images/catstudymonte.jpg',
+      'https://scontent.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/21224995_113817375999392_8620381134125006848_n.jpg'
     ];
 
     this.state = {
@@ -56,7 +60,7 @@ class DndMainContainer extends React.Component{
   }
 
   _generateRandomValue = () => {
-    const randomValue = Math.floor(Math.random() * this.images.length);
+    const randomValue = Math.floor(Math.random() * (this.images.length - 1));
     return randomValue;
   };
 
@@ -78,7 +82,6 @@ class DndMainContainer extends React.Component{
   }
 
   _handleMoveItem = (locale) => (dragIndex, hoverIndex) => {
-    //TODO : set item position when move is done
     const { imageSlider } = Object.assign({}, this.state);
     let currItems = imageSlider[locale].items;
     const dragCard = currItems[dragIndex];
@@ -97,7 +100,7 @@ class DndMainContainer extends React.Component{
     const currItems = imageSlider[locale].items;
     const newId = `item_${new Date().getMilliseconds()}`;
 
-    currItems.push({ id : newId, name: newId, order: (currItems.length - 1), value : newId });
+    currItems.push({ id : newId, name: newId, order: (currItems.length - 1), value : newId, image : this.images[this._generateRandomValue()] });
 
     imageSlider[locale].items = currItems;
     this.setState({
