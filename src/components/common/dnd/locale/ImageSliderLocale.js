@@ -12,7 +12,7 @@ class ImageSliderLocale extends React.Component{
   };
 
   render(){
-    const { items, locale, order, handleRemoveItem } = this.props;
+    const { items, locale, order, handleRemoveItem, handleMoveItem } = this.props;
     return (
       <div>
         <div>
@@ -22,7 +22,8 @@ class ImageSliderLocale extends React.Component{
           </span>
         </div>
         <ImageSliderItemList items={items}
-                             handleRemoveItem={handleRemoveItem} />
+                             handleRemoveItem={handleRemoveItem}
+                             handleMoveItem={handleMoveItem} />
       </div>
     );
   }
@@ -32,7 +33,8 @@ ImageSliderLocale.propTypes = {
   locale : PropTypes.string.isRequired,
   order : PropTypes.number.isRequired,
   handleAddItem : PropTypes.func.isRequired,
-  handleRemoveItem : PropTypes.func.isRequired
+  handleRemoveItem : PropTypes.func.isRequired,
+  handleMoveItem : PropTypes.func.isRequired
 };
 
 export default ImageSliderLocale;

@@ -1,11 +1,29 @@
 import React from 'react';
 import { ImageSliderLocaleList } from "./locale";
+import { DragDropContext } from 'react-dnd';
+import update from 'immutability-helper'
+import HTML5Backend from 'react-dnd-html5-backend';
 
+@DragDropContext(HTML5Backend)
 class DndMainContainer extends React.Component{
   constructor(props){
     super(props);
+
+    this.images = [
+      'http://www.karenfosbergphotography.com/wp-content/uploads/2014/05/SCRAPS-Pet-Portal-5-08-14-20.jpg',
+      'https://i.pinimg.com/736x/b6/b7/18/b6b718b7514ea4255360189571798b02--simons-cat-kitten-care.jpg',
+      'https://i.pinimg.com/736x/7a/ce/85/7ace85f1207a0fc850b1b99d92837550--baby-animals-funny-animals.jpg',
+      'https://i.pinimg.com/736x/a0/50/bb/a050bb0e9a439db670f3c39b19a9c039--dog-selfie-save-animals.jpg',
+      'https://i.pinimg.com/736x/34/51/21/3451216c8bccff00e06d127bb1099584--dog-selfie-oscars.jpg'
+    ];
+
     this.state = {
       imageSlider: {
+        "en-sg": {
+          locale: 'en-sg',
+          order: 0,
+          items: []
+        },
         "en-id": {
           locale: 'en-id',
           order: 0,
@@ -14,25 +32,33 @@ class DndMainContainer extends React.Component{
               id : 'item1',
               name: 'item 1',
               order: 0,
-              value: 'this is item 1'
+              value: 'this is item 1',
+              image : this.images[this._generateRandomValue()]
             },
             {
               id : 'item2',
               name: 'item 2',
               order: 1,
-              value: 'this is item 2'
+              value: 'this is item 2',
+              image : this.images[this._generateRandomValue()]
             },
             {
               id : 'item3',
               name: 'item 3',
               order: 2,
-              value: 'this is item 3'
+              value: 'this is item 3',
+              image : this.images[this._generateRandomValue()]
             }]
         }
       }
     };
     this.insertedLocale = '';
   }
+
+  _generateRandomValue = () => {
+    const randomValue = Math.floor(Math.random() * this.images.length);
+    return randomValue;
+  };
 
   render(){
     return (
@@ -45,10 +71,25 @@ class DndMainContainer extends React.Component{
           imageSlider={this.state.imageSlider}
           handleAddItem={this._handleAddItem}
           handleRemoveItem={this._handleRemoveItem}
+          handleMoveItem={this._handleMoveItem}
         />
       </div>
     )
   }
+
+  _handleMoveItem = (locale) => (dragIndex, hoverIndex) => {
+    //TODO : set item position when move is done
+    const { imageSlider } = Object.assign({}, this.state);
+    let currItems = imageSlider[locale].items;
+    const dragCard = currItems[dragIndex];
+    currItems.splice(dragIndex,1);
+    currItems.splice(hoverIndex,0,dragCard);
+    imageSlider[locale].items = currItems;
+
+    this.setState({
+      imageSlider : imageSlider
+    })
+  };
 
   _handleAddItem = (locale) => () => {
     console.log('current locale : ', locale);
