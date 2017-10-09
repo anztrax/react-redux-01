@@ -38,6 +38,7 @@ const cardTarget = {
     const hoverIndex = props.order;
     const dragLocale = monitor.getItem().locale;
     const hoverLocale = props.locale;
+    console.log(`drag index : ${dragIndex} ${dragLocale} # ${hoverIndex} ${hoverLocale}`);
 
     // Don't replace items with themselves
     if (dragIndex === hoverIndex) {

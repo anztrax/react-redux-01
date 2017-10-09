@@ -81,17 +81,35 @@ class DndMainContainer extends React.Component{
     )
   }
 
-  _handleMoveItem = (locale) => (dragIndex, dragLocale, hoverIndex, hoverLocale) => {
+  _handleMoveItemSameLocale = (dragIndex, hoverIndex, locale) => {
     const {imageSlider} = Object.assign({}, this.state);
+    let currItems = imageSlider[locale].items;
+    const dragCard = currItems[dragIndex];
+    currItems.splice(dragIndex, 1);
+    currItems.splice(hoverIndex, 0, dragCard);
+    imageSlider[locale].items = currItems;
+    return imageSlider;
+  };
 
+  _handleMoveItemDifferentLocale = (dragIndex, dragLocale, hoverIndex, hoverLocale) => {
+    const {imageSlider} = Object.assign({}, this.state);
+    let dragItems = imageSlider[dragLocale].items;
+    let hoverItems = imageSlider[hoverLocale].items;
+
+    const dragCard = dragItems[dragIndex];
+    dragItems.splice(dragIndex, 1);
+    hoverItems.splice(hoverIndex, 0, dragCard);
+    imageSlider[dragLocale].items = dragItems;
+    imageSlider[hoverLocale].items = hoverItems;
+    return imageSlider;
+  };
+
+  _handleMoveItem = (locale) => (dragIndex, dragLocale, hoverIndex, hoverLocale) => {
+    let imageSlider;
     if(dragLocale === hoverLocale) {
-      let currItems = imageSlider[locale].items;
-      const dragCard = currItems[dragIndex];
-      currItems.splice(dragIndex, 1);
-      currItems.splice(hoverIndex, 0, dragCard);
-      imageSlider[locale].items = currItems;
+      imageSlider = this._handleMoveItemSameLocale(dragIndex, hoverIndex, locale);
     }else{
-      console.log(`different locale : ${dragLocale} ${hoverLocale}`);
+      imageSlider = this._handleMoveItemDifferentLocale(dragIndex, dragLocale, hoverIndex, hoverLocale);
     }
 
     this.setState({
