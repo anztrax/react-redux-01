@@ -11,24 +11,27 @@ class DndMainContainer extends React.Component{
           order: 0,
           items: [
             {
+              id : 'item1',
               name: 'item 1',
               order: 0,
               value: 'this is item 1'
             },
             {
+              id : 'item2',
               name: 'item 2',
               order: 1,
               value: 'this is item 2'
             },
             {
+              id : 'item3',
               name: 'item 3',
-              order: 1,
+              order: 2,
               value: 'this is item 3'
             }]
         }
-      },
-      insertedLocale : ''
+      }
     };
+    this.insertedLocale = '';
   }
 
   render(){
@@ -41,6 +44,7 @@ class DndMainContainer extends React.Component{
         <ImageSliderLocaleList
           imageSlider={this.state.imageSlider}
           handleAddItem={this._handleAddItem}
+          handleRemoveItem={this._handleRemoveItem}
         />
       </div>
     )
@@ -48,6 +52,33 @@ class DndMainContainer extends React.Component{
 
   _handleAddItem = (locale) => () => {
     console.log('current locale : ', locale);
+    const { imageSlider } = Object.assign({}, this.state);
+    const currItems = imageSlider[locale].items;
+    const newId = `item_${new Date().getMilliseconds()}`;
+
+    currItems.push({ id : newId, name: newId, order: (currItems.length - 1), value : newId });
+
+    imageSlider[locale].items = currItems;
+    this.setState({
+      imageSlider : imageSlider
+    });
+  };
+
+  _handleRemoveItem = (locale) => (itemId) => {
+    console.log('current locale : ', locale);
+    console.log('current itemId : ', itemId);
+
+    const { imageSlider } = Object.assign({}, this.state);
+    let currItems = imageSlider[locale].items;
+    const currItemIndex = currItems.findIndex((item) => item.id === itemId);
+    if(currItemIndex > -1){
+      currItems.splice(currItemIndex,1);
+    }
+
+    imageSlider[locale].items = currItems;
+    this.setState({
+      imageSlider : imageSlider
+    });
   };
 
   _generateNewImageSliderLocaleData = (locale) => {
@@ -59,21 +90,19 @@ class DndMainContainer extends React.Component{
   };
 
   _handleAddLocale = (event) => {
-    const { insertedLocale } = this.state;
+    const { insertedLocale } = this;
     const { imageSlider } = Object.assign({},this.state);
     imageSlider[insertedLocale] = this._generateNewImageSliderLocaleData(insertedLocale);
 
     this.setState({
-      insertedLocale : '',
       imageSlider: imageSlider
     });
     this.textInput.value = '';
   };
 
   _handleLocaleInputChange = (event) => {
-    this.setState({ insertedLocale: event.target.value })
+    this.insertedLocale = event.target.value
   };
-
 }
 
 export default DndMainContainer;

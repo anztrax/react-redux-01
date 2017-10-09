@@ -4,13 +4,14 @@ import ImageSliderLocale from './ImageSliderLocale';
 class ImageSliderLocaleList extends React.Component{
 
   _renderItemLocaleitems = () => {
-    const { imageSlider , handleAddItem } = this.props;
+    const { imageSlider , handleAddItem, handleRemoveItem } = this.props;
     return Object.keys(imageSlider).map(imageSliderItem => {
       const { items, locale, order } = imageSlider[imageSliderItem];
       return (
         <ImageSliderLocale
           items={items}
           handleAddItem={handleAddItem(locale)}
+          handleRemoveItem={handleRemoveItem(locale)}
           locale={locale}
           order={order}
         />
@@ -28,7 +29,8 @@ class ImageSliderLocaleList extends React.Component{
 }
 ImageSliderLocale.propTypes = {
   imageSlider : PropTypes.object.isRequired,
-  handleAddItem : PropTypes.func.isRequired
+  handleAddItem : PropTypes.func.isRequired,
+  handleRemoveItem : PropTypes.func.isRequired
 };
 
 export default ImageSliderLocaleList;

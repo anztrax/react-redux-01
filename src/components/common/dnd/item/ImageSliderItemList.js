@@ -7,14 +7,16 @@ class ImageSliderItemList extends React.Component{
   }
 
   _renderImageSliderItems = () => {
-    const { items } = this.props;
+    const { items, handleRemoveItem } = this.props;
     return items.map(item => {
-      const { name, order, value } = item;
+      const { name, order, value, id } = item;
       return (
         <ImageSliderItem
           name={name}
           order={order}
-          value={value} />
+          value={value}
+          handleRemoveItem={handleRemoveItem}
+          id={id} />
       )
     });
   };
@@ -28,7 +30,8 @@ class ImageSliderItemList extends React.Component{
   }
 }
 ImageSliderItemList.propTypes = {
-  items : PropTypes.array.isRequired
+  items : PropTypes.array.isRequired,
+  handleRemoveItem : PropTypes.func.isRequired
 };
 
 export default ImageSliderItemList;

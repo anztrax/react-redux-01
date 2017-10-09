@@ -4,7 +4,7 @@ const styles = {
   item: {
     width: '200px',
     'border': '1px solid red',
-    'margin': '0px 5px',
+    'margin': '5px',
     'padding': '5px',
     display: 'inline-block',
     fontSize: '13px'
@@ -20,8 +20,8 @@ class ImageSliderItem extends React.Component {
   }
 
   _handleRemoveItemClick = (event) => {
-    const { removeItem } = this.props;
-    removeItem();
+    const { handleRemoveItem, id } = this.props;
+    handleRemoveItem(id);
   };
 
   render() {
@@ -46,7 +46,9 @@ class ImageSliderItem extends React.Component {
 ImageSliderItem.propTypes = {
   name: PropTypes.string.isRequired,
   order: PropTypes.number.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
+  id : PropTypes.string.isRequired,
+  removeItem : PropTypes.func.isRequired
 };
 
 export default ImageSliderItem;
