@@ -26,7 +26,8 @@ const cardSource = {
       id: props.id,
       value: props.value,
       name : props.name,
-      order : props.order
+      order : props.order,
+      locale : props.locale
     }
   }
 };
@@ -35,6 +36,8 @@ const cardTarget = {
   hover(props, monitor, component){
     const dragIndex = monitor.getItem().order;
     const hoverIndex = props.order;
+    const dragLocale = monitor.getItem().locale;
+    const hoverLocale = props.locale;
 
     // Don't replace items with themselves
     if (dragIndex === hoverIndex) {
@@ -73,13 +76,14 @@ const cardTarget = {
     }
 
     // Time to actually perform the action
-    props.handleMoveItem(dragIndex, hoverIndex);
+    props.handleMoveItem(dragIndex, dragLocale, hoverIndex, hoverLocale);
 
     // Note: we're mutating the monitor item here!
     // Generally it's better to avoid mutations,
     // but it's good here for the sake of performance
     // to avoid expensive index searches.
     monitor.getItem().order = hoverIndex;
+    monitor.getItem().locale = hoverLocale;
   },
 };
 

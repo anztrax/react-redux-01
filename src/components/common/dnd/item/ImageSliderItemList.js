@@ -8,7 +8,7 @@ class ImageSliderItemList extends React.Component{
   }
 
   _renderImageSliderItems = () => {
-    const { items, handleRemoveItem } = this.props;
+    const { items, handleRemoveItem,locale } = this.props;
     return items.map((item, index) => {
       const { name, order, value, id, image } = item;
       return (
@@ -16,6 +16,7 @@ class ImageSliderItemList extends React.Component{
           name={name}
           order={index}
           value={value}
+          locale={locale}
           handleRemoveItem={handleRemoveItem}
           handleMoveItem={this._handleMoveItem}
           image={image}
@@ -24,9 +25,9 @@ class ImageSliderItemList extends React.Component{
     });
   };
 
-  _handleMoveItem = (dragIndex,hoverIndex) => {
+  _handleMoveItem = (dragIndex,dragLocale, hoverIndex, hoverLocale) => {
     const { handleMoveItem } = this.props;
-    handleMoveItem(dragIndex, hoverIndex);
+    handleMoveItem(dragIndex, dragLocale, hoverIndex, hoverLocale);
   };
 
   render(){

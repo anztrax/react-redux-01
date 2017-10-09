@@ -22,6 +22,7 @@ class ImageSliderLocale extends React.Component{
           </span>
         </div>
         <ImageSliderItemList items={items}
+                             locale={locale}
                              handleRemoveItem={handleRemoveItem}
                              handleMoveItem={handleMoveItem} />
       </div>

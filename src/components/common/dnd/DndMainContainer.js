@@ -81,17 +81,22 @@ class DndMainContainer extends React.Component{
     )
   }
 
-  _handleMoveItem = (locale) => (dragIndex, hoverIndex) => {
-    const { imageSlider } = Object.assign({}, this.state);
-    let currItems = imageSlider[locale].items;
-    const dragCard = currItems[dragIndex];
-    currItems.splice(dragIndex,1);
-    currItems.splice(hoverIndex,0,dragCard);
-    imageSlider[locale].items = currItems;
+  _handleMoveItem = (locale) => (dragIndex, dragLocale, hoverIndex, hoverLocale) => {
+    const {imageSlider} = Object.assign({}, this.state);
+
+    if(dragLocale === hoverLocale) {
+      let currItems = imageSlider[locale].items;
+      const dragCard = currItems[dragIndex];
+      currItems.splice(dragIndex, 1);
+      currItems.splice(hoverIndex, 0, dragCard);
+      imageSlider[locale].items = currItems;
+    }else{
+      console.log(`different locale : ${dragLocale} ${hoverLocale}`);
+    }
 
     this.setState({
       imageSlider : imageSlider
-    })
+    });
   };
 
   _handleAddItem = (locale) => () => {
