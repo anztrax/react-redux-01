@@ -2,6 +2,14 @@ import React, { PropTypes } from 'react';
 import ImageSliderItem from './ImageSliderItem';
 import itemTypes from './itemTypes';
 import { DropTarget } from 'react-dnd';
+const styles = {
+  container : {
+    border: '1px solid black',
+    padding : '10px',
+    marginTop : '10px',
+    minHeight : '100px'
+  }
+};
 
 const cardTarget = {
   drop(props, monitor, component) {
@@ -32,20 +40,25 @@ class ImageSliderItemList extends React.Component{
 
   _renderImageSliderItems = () => {
     const { items, handleRemoveItem, locale } = this.props;
-    return items.map((item, index) => {
+    const itemList = [];
+
+    items.map((item, i) => {
       const { name, order, value, id, image } = item;
-      return (
-        <ImageSliderItem
-          name={name}
-          order={index}
-          value={value}
-          locale={locale}
-          handleRemoveItem={handleRemoveItem}
-          handleMoveItem={this._handleMoveItem}
-          image={image}
-          id={id} />
-      )
+      if (item !== undefined) {
+        itemList.push(
+          <ImageSliderItem
+            name={name}
+            order={i}
+            value={value}
+            locale={locale}
+            handleRemoveItem={handleRemoveItem}
+            handleMoveItem={this._handleMoveItem}
+            image={image}
+            id={id}/>
+        )
+      }
     });
+    return itemList;
   };
 
   _handleMoveItem = (dragIndex,dragLocale, hoverIndex, hoverLocale) => {
@@ -56,7 +69,7 @@ class ImageSliderItemList extends React.Component{
   render(){
     const { connectDropTarget } = this.props;
     return connectDropTarget(
-      <div style={{border: '1px solid black', padding : '10px', 'marginTop' : '10px', minHeight : '100px'}}>
+      <div style={styles.container}>
         {this._renderImageSliderItems()}
       </div>
     )
